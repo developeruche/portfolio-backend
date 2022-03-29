@@ -1,21 +1,18 @@
 # This is where most of the algorithm would take place
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from .serializers import (GenericFileUpload, 
-                        GenericFileUploadSerializer, ProjectModal, 
+from .serializers import ( ProjectModal, 
                         ProjectModalSerializer, TestimonialSerializer, Testimonial, MessageModal, MessageSerializer)
 from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status
 
-class GenericFileUploadView(ModelViewSet):
-    queryset = GenericFileUpload.objects.all()
-    serializer_class = GenericFileUploadSerializer
+
 
 class ProjectView(ModelViewSet):
     """ The image and the source code would be posted first on admin page then id would be retrieved for the api pourpose """
-    queryset = ProjectModal.objects.select_related("image", "source_code")
+    queryset = ProjectModal.objects.all()
     serializer_class = ProjectModalSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, ) #This way an outside will not just come to the rest frame work provided interface and manipluate data instead data cxan be controlled by the authenticated user via the django admin platform
 
@@ -25,7 +22,7 @@ class ProjectView(ModelViewSet):
 
 class ProjectPaginated(ModelViewSet):
     """ The View would manually carter for any paginated request of any such """
-    queryset = ProjectModal.objects.select_related("image", "source_code")
+    queryset = ProjectModal.objects.all()
     serializer_class = ProjectModalSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, ) 
 
@@ -43,7 +40,7 @@ class ProjectPaginated(ModelViewSet):
 
 class TestimonialView(ModelViewSet):
     """ This view would download testimonial """
-    queryset = Testimonial.objects.select_related("pics")
+    queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, ) 
 
